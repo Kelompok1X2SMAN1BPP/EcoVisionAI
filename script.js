@@ -198,4 +198,17 @@ function clearImage() {
     // 4. Balikin tombolnya seperti semula
     if (clearBtn) clearBtn.style.display = "none";
     if (uploadBtn) uploadBtn.style.display = "block";
+
 }
+// 1. Ambil elemen hamburger dan daftar menu berdasarkan ID-nya
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('nav-links');
+
+// 2. Kasih fungsi 'klik' ke hamburger
+hamburger.addEventListener('click', () => {
+    // 3. Toggle class 'active' pada nav-links (biar muncul/hilang)
+    navLinks.classList.toggle('active');
+    
+    // 4. Toggle class 'toggle' pada hamburger (biar garisnya berubah jadi X)
+    hamburger.classList.toggle('toggle');
+});
