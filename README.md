@@ -1,0 +1,2 @@
+# EcoVisionAI
+Students' AI Project
