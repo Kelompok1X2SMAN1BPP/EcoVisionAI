@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoVision AI - Smart Waste Solution</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+            <img src="logo FIX.png" alt="Logo" id="nav-logo-img">
+            <span class="logo-text">EcoVision AI</span>
+        </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#detection">Detection</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#benefits">Benefits</a></li>
+            </ul>
+        </div>
+    </nav>
+    <header id="home" class="hero">
+        <div class="hero-content">
+            <h1>Welcome to <span>EcoVision AI</span></h1>
+            <p>Sistem klasifikasi sampah cerdas berbasis Computer Vision untuk masa depan yang lebih hijau.</p>
+            <a href="#detection" class="btn-primary">Get Started</a>
+        </div>
+    </header>
+
+    <section id="detection" class="section">
+    <div class="main-card">
+        <h2 class="section-title">AI Waste Detection</h2>
+        <p class="subtitle">Gunakan Kamera atau Upload Foto Sampahmu</p>
+
+        <div id="webcam-wrapper">
+            <div id="webcam-container"></div>
+            <img id="image-preview" src="#" alt="Preview" style="display:none;" />
+        </div>
+        
+        <div id="label-container"></div>
+
+        <div class="action-buttons">
+            <button id="camera-btn" class="btn-live" type="button" onclick="toggleCamera()">Live Camera</button>
+    
+            <input type="file" id="file-input" accept="image/*" style="display:none;" onchange="handleUpload(this)">
+            <button class="btn-upload" type="button" onclick="document.getElementById('file-input').click()">Upload Image</button>
+
+            <button id="clear-btn" class="btn-upload" type="button" onclick="clearImage()" style="display:none; border-color: #e74c3c; color: #e74c3c;">Clear Image</button>
+        </div>
+    </div>
+</section>
+
+    <section id="about" class="about-section">
+    <div class="container">
+        <h2 class="section-title-about">How <span>EcoVision AI</span> Works</h2>
+        <p class="subtitle-about">Mengenal teknologi di balik klasifikasi sampah cerdas kami.</p>
+
+        <div class="about-grid">
+            <div class="about-card">
+                <div class="step-number">01</div>
+                <h3>Image Capture</h3>
+                <p>Sistem mengambil gambar melalui kamera real-time atau file yang diunggah pengguna.</p>
+            </div>
+
+            <div class="about-card">
+                <div class="step-number">02</div>
+                <h3>AI Processing</h3>
+                <p>Algoritma Computer Vision menganalisis tekstur, bentuk, dan warna objek secara mendalam.</p>
+            </div>
+
+            <div class="about-card">
+                <div class="step-number">03</div>
+                <h3>Classification</h3>
+                <p>Data diklasifikasikan ke dalam kategori sampah organik, anorganik, atau B3 dengan akurasi tinggi.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <section id="benefits" class="benefits-section">
+    <div class="container">
+        <h2 class="section-title-about">Why <span>Waste Classification</span> Matters</h2>
+        
+        <div class="benefits-grid">
+            <div class="benefit-item">
+                <div class="benefit-icon">🌿</div>
+                <h3>Reduces Pollution</h3>
+                <p>Membantu mengurangi penumpukan sampah di TPA yang dapat mencemari tanah dan air tanah kita.</p>
+            </div>
+
+            <div class="benefit-item">
+                <div class="benefit-icon">♻️</div>
+                <h3>Supports Recycling</h3>
+                <p>Mempermudah proses daur ulang karena sampah sudah terpilah dengan benar sejak dari sumbernya.</p>
+            </div>
+
+            <div class="benefit-item">
+                <div class="benefit-icon">🌍</div>
+                <h3>Environmental Awareness</h3>
+                <p>Meningkatkan kesadaran masyarakat akan pentingnya menjaga ekosistem demi masa depan bumi.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <footer>
+        <p>&copy; 2026 EcoVision. SMAN 1 Balikpapan AI Project.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
