@@ -3,6 +3,7 @@
    ========================================= */
 
 // GANTI "KODE_KAMU" dengan ID model asli dari Teachable Machine milikmu
+// Contoh: "https://teachablemachine.withgoogle.com/models/abcd12345/"
 const URL_MODEL = "https://teachablemachine.withgoogle.com/models/KODE_KAMU/";
 
 let model, webcam, labelContainer, maxPredictions;
@@ -16,7 +17,7 @@ async function loadModel() {
         const modelURL = URL_MODEL + "model.json";
         const metadataURL = URL_MODEL + "metadata.json";
         
-        // Memuat model AI
+        // Memuat model AI dari Google Teachable Machine
         model = await tmImage.load(modelURL, metadataURL);
         maxPredictions = model.getTotalClasses();
         console.log("Model AI Berhasil Dimuat!");
@@ -24,11 +25,31 @@ async function loadModel() {
         console.error("Gagal memuat model. Pastikan URL model benar!", e);
     }
 }
-loadModel(); // Langsung jalankan saat halaman dibuka
+loadModel(); // Langsung jalankan saat halaman dibuka agar AI siap sedia
 
 /* =========================================
-   2. LOGIKA NAVIGASI (SMOOTH SCROLL)
+   2. LOGIKA NAVIGASI & HAMBURGER MENU
    ========================================= */
+
+// Ambil elemen hamburger dan daftar menu
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('nav-links');
+
+// Fungsi klik untuk membuka/menutup menu di HP
+hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('active'); // Munculkan menu
+    hamburger.classList.toggle('toggle'); // Animasi garis jadi X
+});
+
+// Fitur Auto-Close: Menu menutup otomatis setelah kita klik salah satu menu (khusus HP)
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        hamburger.classList.remove('toggle');
+    });
+});
+
+// Smooth Scroll: Agar perpindahan antar bagian (Home, Detection, dll) halus
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -50,30 +71,30 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 /* =========================================
    3. LOGIKA LIVE CAMERA (WEB-CAM)
    ========================================= */
-/* --- FUNGSI PINTAR TOGGLE KAMERA (NYALA/MATI) --- */
 async function toggleCamera() {
     const btn = document.getElementById("camera-btn");
 
     if (!isWebcamActive) {
         // --- PROSES MENYALAKAN KAMERA ---
+        // Sembunyikan preview gambar jika ada
         document.getElementById("image-preview").style.display = "none";
         
-        const flip = true;
+        const flip = true; // mirror kamera
         webcam = new tmImage.Webcam(300, 300, flip);
-        await webcam.setup();
+        await webcam.setup(); // Minta izin akses kamera
         await webcam.play();
         
         isWebcamActive = true;
-        window.requestAnimationFrame(loop);
+        window.requestAnimationFrame(loop); // Mulai pengulangan prediksi
 
         const container = document.getElementById("webcam-container");
-        container.innerHTML = "";
-        container.appendChild(webcam.canvas);
-        setupLabels();
+        container.innerHTML = ""; // Bersihkan container
+        container.appendChild(webcam.canvas); // Masukkan canvas kamera
+        setupLabels(); // Siapkan teks hasil prediksi
 
-        // Ganti tampilan tombol jadi STOP
+        // Ganti tampilan tombol jadi STOP (warna merah diatur via class 'stopping')
         btn.innerHTML = "Stop Camera";
-        btn.classList.add("stopping"); // Kita kasih warna merah lewat CSS nanti
+        btn.classList.add("stopping");
     } else {
         // --- PROSES MEMATIKAN KAMERA ---
         isWebcamActive = false;
@@ -89,20 +110,23 @@ async function toggleCamera() {
         btn.classList.remove("stopping");
     }
 }
-// FUNGSI LOOP: Inilah yang bikin kamera GERAK/REAL-TIME
+
+// Fungsi Loop: Menjalankan prediksi terus menerus selama kamera aktif
 async function loop() {
     if (isWebcamActive && webcam && webcam.canvas) {
-        webcam.update(); // Ambil frame terbaru dari kamera
+        webcam.update(); // Ambil frame terbaru
         await predict(webcam.canvas); // Prediksi frame tersebut
-        window.requestAnimationFrame(loop); // Ulangi terus menerus
+        window.requestAnimationFrame(loop);
     }
 }
+
 /* =========================================
    4. LOGIKA UPLOAD FOTO (FILE INPUT)
    ========================================= */
 async function handleUpload(input) {
     if (input.files && input.files[0]) {
         
+        // Jika kamera lagi nyala, matikan dulu agar tidak bentrok
         if (isWebcamActive) {
             await toggleCamera(); 
         }
@@ -111,17 +135,18 @@ async function handleUpload(input) {
         reader.onload = async function (e) {
             const imgElement = document.getElementById("image-preview");
             const container = document.getElementById("webcam-container");
-            const clearBtn = document.getElementById("clear-btn"); // AMBIL TOMBOL CLEAR
-            const uploadBtn = document.querySelector('.btn-upload'); // AMBIL TOMBOL UPLOAD
+            const clearBtn = document.getElementById("clear-btn");
+            const uploadBtn = document.querySelector('.btn-upload');
 
-            container.innerHTML = ""; 
-            imgElement.src = e.target.result; 
-            imgElement.style.display = "block"; 
+            container.innerHTML = ""; // Bersihkan area kamera
+            imgElement.src = e.target.result; // Masukkan foto ke elemen <img>
+            imgElement.style.display = "block"; // Munculkan fotonya
 
-            // --- TAMBAHAN: TUKAR TOMBOL ---
+            // Tukar tombol Upload dengan tombol Clear Image
             if (clearBtn) clearBtn.style.display = "block";
             if (uploadBtn) uploadBtn.style.display = "none";
 
+            // Jalankan AI setelah gambar selesai dimuat (loading)
             imgElement.onload = async function () {
                 setupLabels();
                 await predict(imgElement); 
@@ -130,14 +155,16 @@ async function handleUpload(input) {
         reader.readAsDataURL(input.files[0]);
     }
 }
+
 /* =========================================
    5. LOGIKA PREDIKSI (INTI AI)
    ========================================= */
 async function predict(imageSource) {
-    if (!model) return; // Jangan prediksi kalau model belum siap
+    if (!model) return; // Proteksi jika model belum siap
     
     const prediction = await model.predict(imageSource);
     
+    // Tampilkan persentase hasil tiap kategori sampah
     for (let i = 0; i < maxPredictions; i++) {
         const classPrediction =
             prediction[i].className + ": " + (prediction[i].probability * 100).toFixed(0) + "%";
@@ -148,67 +175,5 @@ async function predict(imageSource) {
     }
 }
 
-// Fungsi pembantu untuk membuat kotak teks hasil prediksi
-function setupLabels() {
-    labelContainer = document.getElementById("label-container");
-    labelContainer.innerHTML = ""; 
-    for (let i = 0; i < maxPredictions; i++) {
-        const labelDiv = document.createElement("div");
-        labelContainer.appendChild(labelDiv);
-    }
-}
-const hamburger = document.getElementById('hamburger');
-const navLinks = document.getElementById('nav-links');
-
-hamburger.addEventListener('click', () => {
-    navLinks.classList.toggle('active'); // Buka/Tutup Menu
-    
-    // Animasi tombol garis 3 jadi tanda silang (X)
-    hamburger.classList.toggle('toggle');
-});
-/* --- FITUR TAMBAHAN: AUTO-CLOSE MENU PAS DIKLIK (KHUSUS HP) --- */
-document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-        // Hapus class active biar menu nutup lagi setelah kita pilih section
-        navLinks.classList.remove('active');
-        // Balikin ikon X jadi garis 3 lagi
-        hamburger.classList.remove('toggle');
-    });
-});
-/* =========================================
-   6. FUNGSI HAPUS GAMBAR (CLEAR)
-   ========================================= */
-function clearImage() {
-    const imgElement = document.getElementById("image-preview");
-    const labelContainer = document.getElementById("label-container");
-    const clearBtn = document.getElementById("clear-btn");
-    const uploadBtn = document.querySelector('.btn-upload');
-    const fileInput = document.getElementById("file-input");
-
-    // 1. Sembunyikan gambar & hapus isinya
-    imgElement.style.display = "none";
-    imgElement.src = "#";
-    
-    // 2. Bersihkan hasil prediksi AI
-    if (labelContainer) labelContainer.innerHTML = "";
-    
-    // 3. Reset input file biar bisa upload foto yang sama lagi
-    if (fileInput) fileInput.value = "";
-
-    // 4. Balikin tombolnya seperti semula
-    if (clearBtn) clearBtn.style.display = "none";
-    if (uploadBtn) uploadBtn.style.display = "block";
-
-}
-// 1. Ambil elemen hamburger dan daftar menu berdasarkan ID-nya
-const hamburger = document.getElementById('hamburger');
-const navLinks = document.getElementById('nav-links');
-
-// 2. Kasih fungsi 'klik' ke hamburger
-hamburger.addEventListener('click', () => {
-    // 3. Toggle class 'active' pada nav-links (biar muncul/hilang)
-    navLinks.classList.toggle('active');
-    
-    // 4. Toggle class 'toggle' pada hamburger (biar garisnya berubah jadi X)
-    hamburger.classList.toggle('toggle');
-});
+// Fungsi untuk membuat elemen kotak teks hasil prediksi secara dinamis
+function
