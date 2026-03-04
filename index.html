@@ -42,9 +42,10 @@
         <h2 class="section-title">AI Waste Detection</h2>
         <p class="subtitle">Gunakan Kamera atau Upload Foto Sampahmu</p>
 
-        <div id="webcam-wrapper">
+        <div id="webcam-wrapper" style="min-height: 350px; display: flex; justify-content: center; align-items: center;">
             <div id="webcam-container"></div>
-            <img id="image-preview" src="#" alt="Preview" style="display:none;" />
+            
+            <img id="image-preview" src="" alt="Preview" style="display:none; max-width: 100%; border-radius: 25px; border: 4px solid #1F7A3E;" />
         </div>
         
         <div id="label-container"></div>
@@ -121,4 +122,5 @@
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>
