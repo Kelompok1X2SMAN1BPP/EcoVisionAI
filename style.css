@@ -358,26 +358,30 @@ footer {
 }
 
 @media (max-width: 768px) {
-    /* Keadaan awal menu pas di HP: sembunyi di kanan layar */
+    /* MUNCULKAN KEMBALI HAMBURGER DI HP */
+    .hamburger {
+        display: flex; /* WAJIB ADA */
+        z-index: 10000;
+    }
+
     .nav-links {
         position: fixed;
-        right: -100%; /* Ngumpet di luar layar */
-        top: 80px;
+        right: -100%; 
+        top: 0; /* Ubah ke 0 agar menutupi layar penuh */
         width: 100%;
         height: 100vh;
-        background: rgba(5, 25, 35, 0.98);
+        background: rgba(7, 30, 22, 0.98); /* Samakan dengan warna tema */
         flex-direction: column;
+        justify-content: center; /* Menu di tengah layar */
         align-items: center;
-        padding-top: 50px;
-        transition: 0.5s ease-in-out; /* Biar slide-nya halus */
+        transition: 0.5s ease-in-out;
     }
 
-    /* Ini yang bakal dipicu sama JavaScript tadi */
     .nav-links.active {
-        right: 0; /* Menu muncul geser ke tengah layar */
+        right: 0;
     }
 
-    /* Bonus: Animasi garis hamburger jadi silang (X) */
+    /* Animasi silang tetap sama */
     .hamburger.toggle span:nth-child(1) {
         transform: rotate(-45deg) translate(-5px, 6px);
     }
