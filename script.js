@@ -3,7 +3,7 @@
    ========================================= */
 
 // GANTI LINK DI BAWAH INI DENGAN LINK MODEL KAMU SENDIRI!
-const URL_MODEL = "https://teachablemachine.withgoogle.com/models/KODE_KAMU/";
+const URL_MODEL = "https://teachablemachine.withgoogle.com/models/GZxhojQW3/";
 
 let model, webcam, labelContainer, maxPredictions;
 let isWebcamActive = false;
@@ -182,3 +182,4 @@ function clearImage() {
     if (fileInput) fileInput.value = "";
     if (clearBtn) clearBtn.style.display = "none";
 }
+
