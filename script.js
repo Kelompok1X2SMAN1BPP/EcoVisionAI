@@ -1,67 +1,59 @@
 /* =========================================
-   PENGATURAN MODEL & VARIABLE GLOBAL
+   1. PENGATURAN MODEL & VARIABLE GLOBAL
    ========================================= */
 
-// GANTI "KODE_KAMU" dengan ID model asli dari Teachable Machine milikmu
-// Contoh: "https://teachablemachine.withgoogle.com/models/abcd12345/"
+// GANTI LINK DI BAWAH INI DENGAN LINK MODEL KAMU SENDIRI!
 const URL_MODEL = "https://teachablemachine.withgoogle.com/models/KODE_KAMU/";
 
 let model, webcam, labelContainer, maxPredictions;
-let isWebcamActive = false; // Penanda apakah kamera sedang jalan
+let isWebcamActive = false;
 
 /* =========================================
-   1. FUNGSI LOAD MODEL (OTAK AI)
+   2. FUNGSI MUAT AI (LOAD MODEL)
    ========================================= */
 async function loadModel() {
     try {
         const modelURL = URL_MODEL + "model.json";
         const metadataURL = URL_MODEL + "metadata.json";
         
-        // Memuat model AI dari Google Teachable Machine
+        // Memuat model AI
         model = await tmImage.load(modelURL, metadataURL);
         maxPredictions = model.getTotalClasses();
-        console.log("Model AI Berhasil Dimuat!");
+        console.log("AI Berhasil Dimuat!");
     } catch (e) {
-        console.error("Gagal memuat model. Pastikan URL model benar!", e);
+        console.error("Gagal muat AI. Periksa URL_MODEL kamu!", e);
     }
 }
-loadModel(); // Langsung jalankan saat halaman dibuka agar AI siap sedia
+loadModel(); // Langsung jalankan saat web dibuka
 
 /* =========================================
-   2. LOGIKA NAVIGASI & HAMBURGER MENU
+   3. LOGIKA NAVIGASI (HAMBURGER & SCROLL)
    ========================================= */
-
-// Ambil elemen hamburger dan daftar menu
 const hamburger = document.getElementById('hamburger');
 const navLinks = document.getElementById('nav-links');
 
-// Fungsi klik untuk membuka/menutup menu di HP
+// Toggle Menu HP
 hamburger.addEventListener('click', () => {
-    navLinks.classList.toggle('active'); // Munculkan menu
-    hamburger.classList.toggle('toggle'); // Animasi garis jadi X
+    navLinks.classList.toggle('active');
+    hamburger.classList.toggle('toggle');
 });
 
-// Fitur Auto-Close: Menu menutup otomatis setelah kita klik salah satu menu (khusus HP)
+// Tutup menu otomatis saat link diklik & Smooth Scroll
 document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Tutup menu
         navLinks.classList.remove('active');
         hamburger.classList.remove('toggle');
-    });
-});
 
-// Smooth Scroll: Agar perpindahan antar bagian (Home, Detection, dll) halus
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
+        // Scroll halus ke target
         const targetId = this.getAttribute('href');
         const targetElement = document.querySelector(targetId);
-
         if (targetElement) {
-            const navbarHeight = document.querySelector('.navbar').offsetHeight;
-            const targetPosition = targetElement.offsetTop - navbarHeight;
-
+            const navHeight = document.querySelector('.navbar').offsetHeight;
             window.scrollTo({
-                top: targetPosition,
+                top: targetElement.offsetTop - navHeight,
                 behavior: 'smooth'
             });
         }
@@ -69,87 +61,80 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 /* =========================================
-   3. LOGIKA LIVE CAMERA (WEB-CAM)
+   4. LOGIKA LIVE CAMERA
    ========================================= */
 async function toggleCamera() {
     const btn = document.getElementById("camera-btn");
+    const container = document.getElementById("webcam-container");
+    const previewImg = document.getElementById("image-preview");
 
     if (!isWebcamActive) {
-        // --- PROSES MENYALAKAN KAMERA ---
-        // Sembunyikan preview gambar jika ada
-        document.getElementById("image-preview").style.display = "none";
-        
-        const flip = true; // mirror kamera
-        webcam = new tmImage.Webcam(300, 300, flip);
-        await webcam.setup(); // Minta izin akses kamera
-        await webcam.play();
-        
-        isWebcamActive = true;
-        window.requestAnimationFrame(loop); // Mulai pengulangan prediksi
+        // Sembunyikan preview foto upload
+        previewImg.style.display = "none";
+        container.style.display = "block";
 
-        const container = document.getElementById("webcam-container");
-        container.innerHTML = ""; // Bersihkan container
-        container.appendChild(webcam.canvas); // Masukkan canvas kamera
-        setupLabels(); // Siapkan teks hasil prediksi
+        try {
+            webcam = new tmImage.Webcam(350, 350, true); 
+            await webcam.setup(); // Minta izin kamera
+            await webcam.play();
+            
+            isWebcamActive = true;
+            window.requestAnimationFrame(loop);
 
-        // Ganti tampilan tombol jadi STOP (warna merah diatur via class 'stopping')
-        btn.innerHTML = "Stop Camera";
-        btn.classList.add("stopping");
-    } else {
-        // --- PROSES MEMATIKAN KAMERA ---
-        isWebcamActive = false;
-        if (webcam) {
-            await webcam.stop();
+            container.innerHTML = "";
+            container.appendChild(webcam.canvas);
+            setupLabels();
+
+            btn.innerHTML = "Stop Camera";
+            btn.style.background = "#e74c3c"; // Merah
+        } catch (err) {
+            alert("Kamera gagal diakses! Pastikan pakai HTTPS atau Live Server.");
+            console.error(err);
         }
-        
-        document.getElementById("webcam-container").innerHTML = "";
-        document.getElementById("label-container").innerHTML = "";
-
-        // Balikkan tampilan tombol jadi LIVE
+    } else {
+        // Matikan Kamera
+        isWebcamActive = false;
+        if (webcam) await webcam.stop();
+        container.innerHTML = "";
         btn.innerHTML = "Live Camera";
-        btn.classList.remove("stopping");
+        btn.style.background = "#6BCB2E"; // Hijau
+        if (labelContainer) labelContainer.innerHTML = "";
     }
 }
 
-// Fungsi Loop: Menjalankan prediksi terus menerus selama kamera aktif
 async function loop() {
     if (isWebcamActive && webcam && webcam.canvas) {
-        webcam.update(); // Ambil frame terbaru
-        await predict(webcam.canvas); // Prediksi frame tersebut
+        webcam.update();
+        await predict(webcam.canvas);
         window.requestAnimationFrame(loop);
     }
 }
 
 /* =========================================
-   4. LOGIKA UPLOAD FOTO (FILE INPUT)
+   5. LOGIKA UPLOAD FOTO
    ========================================= */
 async function handleUpload(input) {
     if (input.files && input.files[0]) {
-        
-        // Jika kamera lagi nyala, matikan dulu agar tidak bentrok
-        if (isWebcamActive) {
-            await toggleCamera(); 
-        }
+        // Matikan kamera jika aktif
+        if (isWebcamActive) await toggleCamera();
 
         const reader = new FileReader();
-        reader.onload = async function (e) {
+        reader.onload = function (e) {
             const imgElement = document.getElementById("image-preview");
             const container = document.getElementById("webcam-container");
             const clearBtn = document.getElementById("clear-btn");
-            const uploadBtn = document.querySelector('.btn-upload');
 
-            container.innerHTML = ""; // Bersihkan area kamera
-            imgElement.src = e.target.result; // Masukkan foto ke elemen <img>
-            imgElement.style.display = "block"; // Munculkan fotonya
+            // Masukkan gambar & paksa tampil
+            imgElement.src = e.target.result;
+            imgElement.style.display = "block";
+            imgElement.style.margin = "0 auto";
+            container.style.display = "none";
 
-            // Tukar tombol Upload dengan tombol Clear Image
-            if (clearBtn) clearBtn.style.display = "block";
-            if (uploadBtn) uploadBtn.style.display = "none";
+            if (clearBtn) clearBtn.style.display = "inline-block";
 
-            // Jalankan AI setelah gambar selesai dimuat (loading)
             imgElement.onload = async function () {
                 setupLabels();
-                await predict(imgElement); 
+                await predict(imgElement);
             };
         };
         reader.readAsDataURL(input.files[0]);
@@ -157,23 +142,43 @@ async function handleUpload(input) {
 }
 
 /* =========================================
-   5. LOGIKA PREDIKSI (INTI AI)
+   6. LOGIKA PREDIKSI & UI
    ========================================= */
-async function predict(imageSource) {
-    if (!model) return; // Proteksi jika model belum siap
+async function predict(source) {
+    if (!model) return;
+    const prediction = await model.predict(source);
     
-    const prediction = await model.predict(imageSource);
-    
-    // Tampilkan persentase hasil tiap kategori sampah
     for (let i = 0; i < maxPredictions; i++) {
-        const classPrediction =
-            prediction[i].className + ": " + (prediction[i].probability * 100).toFixed(0) + "%";
-        
+        const res = prediction[i].className + ": " + (prediction[i].probability * 100).toFixed(0) + "%";
         if (labelContainer && labelContainer.childNodes[i]) {
-            labelContainer.childNodes[i].innerHTML = classPrediction;
+            labelContainer.childNodes[i].innerHTML = res;
         }
     }
 }
 
-// Fungsi untuk membuat elemen kotak teks hasil prediksi secara dinamis
-function
+function setupLabels() {
+    labelContainer = document.getElementById("label-container");
+    labelContainer.innerHTML = "";
+    for (let i = 0; i < maxPredictions; i++) {
+        const div = document.createElement("div");
+        labelContainer.appendChild(div);
+    }
+}
+
+/* =========================================
+   7. FUNGSI CLEAR / RESET
+   ========================================= */
+function clearImage() {
+    const img = document.getElementById("image-preview");
+    const container = document.getElementById("webcam-container");
+    const clearBtn = document.getElementById("clear-btn");
+    const fileInput = document.getElementById("file-input");
+
+    img.style.display = "none";
+    img.src = "#";
+    container.style.display = "block";
+    container.innerHTML = "";
+    if (labelContainer) labelContainer.innerHTML = "";
+    if (fileInput) fileInput.value = "";
+    if (clearBtn) clearBtn.style.display = "none";
+}
