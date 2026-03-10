@@ -1,5 +1,5 @@
 /* ===============================
-   1. RESET & BASE
+   1. RESET & BASE (GAYA TERMINAL)
 =================================*/
 * {
     margin: 0;
@@ -7,28 +7,24 @@
     box-sizing: border-box;
 }
 
-html { scroll-behavior: smooth; }
-
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #071E16;
+    background-color: #051510; /* Lebih gelap biar kesan pro */
     color: #ffffff;
-    padding-top: 80px;
+    line-height: 1.6;
+    overflow-x: hidden;
 }
 
 /* ===============================
-   2. NAVBAR
+   2. NAVBAR MINIMALIS
 =================================*/
 .navbar {
-    position: fixed;
-    top: 0; 
-    left: 0; 
-    width: 100%;
     background: rgba(7, 30, 22, 0.95);
-    backdrop-filter: blur(15px);
-    padding: 12px 0;
+    padding: 15px 0;
     border-bottom: 2px solid #1F7A3E;
-    z-index: 9999;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .nav-container {
@@ -40,381 +36,203 @@ body {
     padding: 0 20px;
 }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-#nav-logo-img {
-    height: 42px;
-}
-
 .logo-text {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 800;
-    background: linear-gradient(to right, #1F7A3E, #6BCB2E);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    letter-spacing: 1px;
 }
 
-.nav-links {
-    list-style: none;
-    display: flex;
-    gap: 30px;
-}
-
-.nav-links a {
-    text-decoration: none;
-    color: #ffffff;
+.nav-info p {
+    font-size: 0.75rem;
+    color: #6BCB2E;
     font-weight: 600;
-    transition: 0.3s;
 }
 
-.nav-links a:hover {
-    color: #6BCB2E;
-}
+#nav-logo-img { height: 35px; }
 
 /* ===============================
-   3. HERO SECTION
+   3. DASHBOARD LAYOUT
 =================================*/
-.hero {
-    height: 100vh;
-    background: linear-gradient(rgba(7,30,22,0.8), rgba(7,30,22,0.8)),
-                url('https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&q=80');
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.dashboard-wrapper {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.dashboard-header {
     text-align: center;
-}
-
-.hero-content h1 {
-    font-size: 4rem;
-    font-weight: 800;
-    margin-bottom: 20px;
-}
-
-.hero-content h1 span {
-    color: #6BCB2E;
-}
-
-.btn-primary {
-    display: inline-block;
-    margin-top: 30px;
-    padding: 18px 45px;
-    background: linear-gradient(45deg, #1F7A3E, #6BCB2E);
-    color: white;
-    text-decoration: none;
-    border-radius: 50px;
-    font-weight: 700;
-    font-size: 1.2rem;
-    box-shadow: 0 10px 25px rgba(107,203,46,0.4);
-    transition: 0.3s;
-    border: none;
-}
-
-.btn-primary:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(107,203,46,0.6);
-}
-
-/* ===============================
-   4. DETECTION SECTION
-=================================*/
-#detection {
-    background: radial-gradient(circle at center, #1F7A3E 0%, #071E16 100%);
-    padding: 100px 20px;
-}
-
-.main-card {
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(25px);
-    padding: 50px 40px;
-    border-radius: 35px;
-    max-width: 750px;
-    margin: 0 auto;
-    text-align: center;
-    border: 1px solid rgba(107,203,46,0.3);
-    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
-}
-
-.section-title {
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin-bottom: 10px;
-}
-
-.subtitle {
-    color: #6BCB2E;
     margin-bottom: 40px;
 }
 
-#webcam-container canvas,
-#image-preview {
-    border-radius: 25px;
-    border: 4px solid #1F7A3E;
-    box-shadow: 0 0 40px rgba(107,203,46,0.4);
-    max-width: 100%;
+.dashboard-header h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
 }
 
-/* Buttons */
-.action-buttons {
+.dashboard-header h1 span { color: #6BCB2E; }
+
+.dashboard-header p {
+    color: #9fdcc0;
+    font-size: 0.9rem;
+}
+
+/* GRID SYSTEM */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr; /* Kiri lebih lebar untuk monitor */
+    gap: 25px;
+}
+
+/* CARDS STYLE */
+.card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(107, 203, 46, 0.2);
+    border-radius: 20px;
+    padding: 25px;
+    backdrop-filter: blur(10px);
+}
+
+.card-header {
     display: flex;
-    gap: 20px;
-    justify-content: center;
-    margin-top: 30px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(107, 203, 46, 0.1);
 }
 
-.btn-live,
-.btn-upload {
-    flex: 1;
-    max-width: 200px;
-    padding: 15px 0;
-    border-radius: 50px;
+.label {
+    font-size: 0.7rem;
     font-weight: 700;
+    letter-spacing: 2px;
+    color: #6BCB2E;
+}
+
+/* STATUS INDICATOR */
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.dot {
+    height: 8px;
+    width: 8px;
+    background-color: #6BCB2E;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #6BCB2E;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+/* ===============================
+   4. MONITOR & SCANNER
+=================================*/
+#webcam-wrapper {
+    background: #000;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid #1F7A3E;
+    min-height: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#webcam-container canvas, #image-preview {
+    width: 100% !important;
+    height: auto !important;
+    display: block;
+}
+
+/* CONTROL PANEL */
+.control-panel {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.btn-main, .btn-sub, .btn-clear {
+    padding: 12px 25px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.85rem;
     cursor: pointer;
     transition: 0.3s;
     border: none;
+    flex: 1;
 }
 
-.btn-live {
-    background: #6BCB2E;
-    color: #071E16;
-}
+.btn-main { background: #6BCB2E; color: #051510; }
+.btn-sub { background: transparent; color: #6BCB2E; border: 1px solid #6BCB2E; }
+.btn-clear { background: transparent; color: #ff4d4d; border: 1px solid #ff4d4d; }
 
-.btn-upload {
-    background: transparent;
-    color: #6BCB2E;
-    border: 2px solid #6BCB2E;
-}
-
-.btn-live:hover,
-.btn-upload:hover {
-    background: #1F7A3E;
-    color: white;
-}
+.btn-main:hover { background: #1F7A3E; color: white; }
+.btn-sub:hover { background: rgba(107, 203, 46, 0.1); }
 
 /* ===============================
-   5. PREDICTION RESULT
+   5. ANALYSIS & RESULTS
 =================================*/
+.results-container h3 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+hr { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
+
 #label-container div {
-    margin: 15px auto;
-    padding: 18px;
-    max-width: 400px;
-    background: rgba(15,61,46,0.8);
-    border-radius: 15px;
-    font-weight: 700;
-    border-left: 6px solid #6BCB2E;
-    color: #6BCB2E;
+    background: rgba(15, 61, 46, 0.4);
+    margin: 10px 0;
+    padding: 12px 15px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-left: 4px solid #6BCB2E;
+    color: #ffffff;
 }
 
-/* ===============================
-   6. ABOUT & BENEFITS
-=================================*/
-.about-section,
-.benefits-section {
-    padding: 120px 20px;
-    background: #071E16;
+.placeholder-text {
+    color: rgba(255,255,255,0.3);
+    font-style: italic;
+    font-size: 0.85rem;
 }
 
-.section-title-about {
-    text-align: center;
-    font-size: 2.6rem;
-    font-weight: 800;
-    margin-bottom: 15px;
+.guidance-box {
+    margin-top: 25px;
+    padding: 15px;
+    background: rgba(107, 203, 46, 0.05);
+    border-radius: 12px;
+    font-size: 0.8rem;
 }
 
-.section-title-about span {
-    color: #6BCB2E;
-}
-
-.subtitle-about {
-    text-align: center;
-    color: #b6d7c9;
-    margin-bottom: 70px;
-}
-
-.about-grid,
-.benefits-grid {
+.tech-specs {
+    margin-top: 20px;
     display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    justify-content: center;
-    max-width: 1200px;
-    margin: 0 auto;
+    gap: 20px;
+    font-size: 0.7rem;
+    opacity: 0.5;
 }
 
-/* ===== ABOUT CARD ===== */
-.about-card {
-    flex: 1;
-    min-width: 300px;
-    padding: 50px 40px;
-    border-radius: 30px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(107,203,46,0.15);
-    backdrop-filter: blur(20px);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 15px 50px rgba(0,0,0,0.5);
-}
-
-.about-card:hover {
-    transform: translateY(-12px);
-    border-color: #6BCB2E;
-    box-shadow: 0 25px 70px rgba(107,203,46,0.15);
-}
-
-/* Angka background */
-.step-number {
-    position: absolute;
-    top: 20px;
-    right: 35px;
-    font-size: 85px;
-    font-weight: 900;
-    color: rgba(107,203,46,0.05);
-    pointer-events: none;
-}
-
-/* Teks */
-.about-card h3 {
-    position: relative;
-    z-index: 2;
-    font-size: 1.4rem;
-    margin-bottom: 18px;
-}
-
-.about-card p {
-    position: relative;
-    z-index: 2;
-    color: #d4f5e6;
-    line-height: 1.7;
-    font-size: 0.95rem;
-}
-
-/* ===== BENEFITS CARD ===== */
-.benefit-item {
-    flex: 1;
-    min-width: 300px;
-    padding: 45px 35px;
-    border-radius: 30px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(107,203,46,0.15);
-    backdrop-filter: blur(20px);
-    transition: all 0.3s ease;
-    text-align: center;
-    box-shadow: 0 15px 50px rgba(0,0,0,0.5);
-}
-
-.benefit-item:hover {
-    transform: translateY(-12px);
-    border-color: #6BCB2E;
-    box-shadow: 0 25px 70px rgba(107,203,46,0.15);
-}
-
-.benefit-icon {
-    font-size: 55px;
-    margin-bottom: 25px;
-    filter: drop-shadow(0 0 12px rgba(107,203,46,0.5));
-}
-
-.benefit-item h3 {
-    color: #6BCB2E;
-    margin-bottom: 15px;
-}
-
-.benefit-item p {
-    color: #d4f5e6;
-    line-height: 1.7;
-}
 /* ===============================
-   7. FOOTER
+   6. FOOTER & RESPONSIVE
 =================================*/
-footer {
+.app-footer {
+    text-align: center;
     padding: 40px;
-    text-align: center;
-    background: #051510;
-    border-top: 1px solid #1F7A3E;
-    color: #9fdcc0;
+    font-size: 0.8rem;
+    opacity: 0.6;
 }
 
-/* ===============================
-   8. HAMBURGER
-=================================*/
-.hamburger {
-    display: none;
-    cursor: pointer;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.hamburger span {
-    width: 25px;
-    height: 3px;
-    background: #6BCB2E;
-    border-radius: 2px;
-}
-
-@media (max-width: 768px) {
-
-    /* Keadaan awal menu pas di HP: sembunyi di kanan layar */
-
-    .nav-links {
-
-        position: fixed;
-
-        right: -100%; /* Ngumpet di luar layar */
-
-        top: 80px;
-
-        width: 100%;
-
-        height: 100vh;
-
-        background: rgba(5, 25, 35, 0.98);
-
-        flex-direction: column;
-
-        align-items: center;
-
-        padding-top: 50px;
-
-        transition: 0.5s ease-in-out; /* Biar slide-nya halus */
-
-    }
-
-
-
-    /* Ini yang bakal dipicu sama JavaScript tadi */
-
-    .nav-links.active {
-
-        right: 0; /* Menu muncul geser ke tengah layar */
-
-    }
-
-
-
-    /* Bonus: Animasi garis hamburger jadi silang (X) */
-
-    .hamburger.toggle span:nth-child(1) {
-
-        transform: rotate(-45deg) translate(-5px, 6px);
-
-    }
-
-    .hamburger.toggle span:nth-child(2) {
-
-        opacity: 0;
-
-    }
-
-    .hamburger.toggle span:nth-child(3) {
-
-        transform: rotate(45deg) translate(-5px, -6px);
-
-    }
-
+@media (max-width: 900px) {
+    .dashboard-grid { grid-template-columns: 1fr; }
+    .dashboard-header h1 { font-size: 1.8rem; }
 }
