@@ -1,7 +1,7 @@
 /* =========================================
    1. PENGATURAN MODEL & VARIABLE GLOBAL
    ========================================= */
-const URL_MODEL = "https://teachablemachine.withgoogle.com/models/GZxhojQW3/";
+const URL_MODEL = "https://teachablemachine.withgoogle.com/models/clHoD9cPB/";
 
 let model, webcam, labelContainer, maxPredictions;
 let isWebcamActive = false;
@@ -170,3 +170,4 @@ function clearImage() {
     if (clearBtn) clearBtn.style.display = "none";
     document.getElementById("instruction-text").innerText = "Arahkan kamera ke objek sampah untuk memulai identifikasi.";
 }
+
