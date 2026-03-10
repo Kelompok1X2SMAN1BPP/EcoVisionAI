@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoVision AI - Smart Waste Solution</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>EcoVision AI - Dashboard Terminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,112 +12,90 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-            <img src="logo FIX.png" alt="Logo" id="nav-logo-img">
-            <span class="logo-text">EcoVision AI</span>
-        </div>
-            <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+                <img src="logo FIX.png" alt="Logo" id="nav-logo-img">
+                <span class="logo-text">EcoVision <span style="color: #6BCB2E;">AI</span></span>
             </div>
-
-            <ul class="nav-links" id="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#detection">Detection</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#benefits">Benefits</a></li>
-            </ul>
+            <div class="nav-info">
+                <p>v1.0 Terminal System | SMAN 1 Balikpapan</p>
+            </div>
         </div>
     </nav>
-    <header id="home" class="hero">
-        <div class="hero-content">
-            <h1>Welcome to <span>EcoVision AI</span></h1>
-            <p>Sistem klasifikasi sampah cerdas berbasis Computer Vision untuk masa depan yang lebih hijau.</p>
-            <a href="#detection" class="btn-primary">Get Started</a>
-        </div>
-    </header>
 
-    <section id="detection">
-    <div class="main-card">
-        <div id="webcam-wrapper" style="min-height: 350px;">
-            <div id="webcam-container"></div>
-            <img id="image-preview" src="" style="display:none; max-width: 100%; border-radius: 20px;">
-        </div>
+    <main class="dashboard-wrapper">
         
-        <div id="label-container"></div>
+        <header class="dashboard-header">
+            <h1>Waste <span>Classification</span> Terminal</h1>
+            <p>Sistem cerdas identifikasi jenis sampah secara real-time.</p>
+        </header>
 
-        <div class="action-buttons">
-            <button id="camera-btn" class="btn-live" onclick="toggleCamera()">Live Camera</button>
+        <div class="dashboard-grid">
             
-            <input type="file" id="file-input" style="display:none;" onchange="handleUpload(this)">
-            <button class="btn-upload" onclick="document.getElementById('file-input').click()">Upload Image</button>
-            
-            <button id="clear-btn" style="display:none;" onclick="clearImage()">Clear</button>
+            <section class="card monitor-card">
+                <div class="card-header">
+                    <div class="status-indicator">
+                        <span class="dot" id="status-dot"></span>
+                        <span id="status-text">SYSTEM READY</span>
+                    </div>
+                    <span class="label">LIVE SCANNER</span>
+                </div>
+
+                <div id="webcam-wrapper">
+                    <div id="webcam-container"></div>
+                    <img id="image-preview" src="" alt="Preview" style="display:none;">
+                </div>
+
+                <div class="control-panel">
+                    <button id="camera-btn" class="btn-main" onclick="toggleCamera()">
+                        Start Scanner
+                    </button>
+                    
+                    <div class="upload-group">
+                        <input type="file" id="file-input" style="display:none;" onchange="handleUpload(this)">
+                        <button class="btn-sub" onclick="document.getElementById('file-input').click()">
+                            Upload Image
+                        </button>
+                        <button id="clear-btn" class="btn-clear" style="display:none;" onclick="clearImage()">
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card analysis-card">
+                <div class="card-header">
+                    <span class="label">ANALYSIS REPORT</span>
+                </div>
+
+                <div class="results-container">
+                    <h3>Classification Probability</h3>
+                    <hr>
+                    <div id="label-container">
+                        <p class="placeholder-text">Waiting for input data...</p>
+                    </div>
+                </div>
+
+                <div class="guidance-box">
+                    <h4><span style="color: #6BCB2E;">ℹ️</span> System Guidance:</h4>
+                    <p id="instruction-text">Arahkan kamera tepat ke objek sampah atau unggah file gambar untuk memulai proses identifikasi otomatis.</p>
+                </div>
+
+                <div class="tech-specs">
+                    <p>Engine: <strong>TensorFlow.js</strong></p>
+                    <p>Model: <strong>TM Image Model</strong></p>
+                </div>
+            </section>
+
         </div>
-    </div>
-</section>
+    </main>
 
-    <section id="about" class="about-section">
-    <div class="container">
-        <h2 class="section-title-about">How <span>EcoVision AI</span> Works</h2>
-        <p class="subtitle-about">Mengenal teknologi di balik klasifikasi sampah cerdas kami.</p>
-
-        <div class="about-grid">
-            <div class="about-card">
-                <div class="step-number">01</div>
-                <h3>Image Capture</h3>
-                <p>Sistem mengambil gambar melalui kamera real-time atau file yang diunggah pengguna.</p>
-            </div>
-
-            <div class="about-card">
-                <div class="step-number">02</div>
-                <h3>AI Processing</h3>
-                <p>Algoritma Computer Vision menganalisis tekstur, bentuk, dan warna objek secara mendalam.</p>
-            </div>
-
-            <div class="about-card">
-                <div class="step-number">03</div>
-                <h3>Classification</h3>
-                <p>Data diklasifikasikan ke dalam kategori sampah organik, anorganik, atau B3 dengan akurasi tinggi.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-    <section id="benefits" class="benefits-section">
-    <div class="container">
-        <h2 class="section-title-about">Why <span>Waste Classification</span> Matters</h2>
-        
-        <div class="benefits-grid">
-            <div class="benefit-item">
-                <div class="benefit-icon">🌿</div>
-                <h3>Reduces Pollution</h3>
-                <p>Membantu mengurangi penumpukan sampah di TPA yang dapat mencemari tanah dan air tanah kita.</p>
-            </div>
-
-            <div class="benefit-item">
-                <div class="benefit-icon">♻️</div>
-                <h3>Supports Recycling</h3>
-                <p>Mempermudah proses daur ulang karena sampah sudah terpilah dengan benar sejak dari sumbernya.</p>
-            </div>
-
-            <div class="benefit-item">
-                <div class="benefit-icon">🌍</div>
-                <h3>Environmental Awareness</h3>
-                <p>Meningkatkan kesadaran masyarakat akan pentingnya menjaga ekosistem demi masa depan bumi.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-    <footer>
-        <p>&copy; 2026 EcoVision. SMAN 1 Balikpapan AI Project.</p>
+    <footer class="app-footer">
+        <p>&copy; 2026 EcoVision Project. Dirancang untuk masa depan lingkungan yang lebih baik.</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+    
     <script src="script.js"></script>
+
 </body>
-
 </html>
-
