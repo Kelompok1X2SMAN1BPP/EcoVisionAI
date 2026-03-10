@@ -39,10 +39,16 @@
                     <span class="label">LIVE SCANNER</span>
                 </div>
 
-                <div id="webcam-wrapper">
+               <div id="webcam-wrapper">
+                    <div id="webcam-placeholder">
+                        <div class="scanner-icon">📸</div>
+                        <p>Camera Standby</p>
+                        <span>Click "Start Scanner" to begin</span>
+                    </div>
+    
                     <div id="webcam-container"></div>
-                    <img id="image-preview" src="" alt="Preview" style="display:none;">
-                </div>
+                    <img id="image-preview" src="" style="display:none;">
+                    </div>
 
                 <div class="control-panel">
                     <button id="camera-btn" class="btn-main" onclick="toggleCamera()">
@@ -99,5 +105,6 @@
 
 </body>
 </html>
+
 
 
