@@ -189,15 +189,37 @@ body {
 
 hr { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
 
+/* Container Dasar Label */
 #label-container div {
-    background: rgba(15, 61, 46, 0.4);
-    margin: 10px 0;
-    padding: 12px 15px;
-    border-radius: 10px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    border-left: 4px solid #6BCB2E;
+    margin: 12px 0;
+    padding: 15px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1rem;
     color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.05); /* Latar belakang transparan tipis */
+}
+
+/* Warna Spesifik Tiap Baris (Urutan sesuai di Teachable Machine) */
+/* Baris 1: Organik */
+#label-container div:nth-child(1) {
+    border-left: 8px solid #2ECC71;
+    color: #2ECC71;
+}
+
+/* Baris 2: Anorganik */
+#label-container div:nth-child(2) {
+    border-left: 8px solid #F1C40F;
+    color: #F1C40F;
+}
+
+/* Baris 3: B3 */
+#label-container div:nth-child(3) {
+    border-left: 8px solid #E74C3C;
+    color: #E74C3C;
 }
 
 .placeholder-text {
@@ -236,3 +258,4 @@ hr { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px
     .dashboard-grid { grid-template-columns: 1fr; }
     .dashboard-header h1 { font-size: 1.8rem; }
 }
+
