@@ -179,42 +179,6 @@ body {
 .btn-main:hover { background: #1F7A3E; color: white; }
 .btn-sub:hover { background: rgba(107, 203, 46, 0.1); }
 
-#webcam-placeholder {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    color: rgba(107, 203, 46, 0.5); /* Hijau transparan */
-    z-index: 1;
-    transition: 0.3s;
-}
-
-.scanner-icon {
-    font-size: 50px;
-    margin-bottom: 10px;
-    opacity: 0.5;
-    animation: pulse 2s infinite; /* Biar ada gerakannya sedikit */
-}
-
-#webcam-placeholder p {
-    font-weight: 700;
-    font-size: 1.1rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-#webcam-placeholder span {
-    font-size: 0.8rem;
-    opacity: 0.7;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); opacity: 0.5; }
-    50% { transform: scale(1.1); opacity: 0.8; }
-    100% { transform: scale(1); opacity: 0.5; }
-}
-
 /* ===============================
    5. ANALYSIS & RESULTS
 =================================*/
@@ -294,5 +258,6 @@ hr { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px
     .dashboard-grid { grid-template-columns: 1fr; }
     .dashboard-header h1 { font-size: 1.8rem; }
 }
+
 
 
