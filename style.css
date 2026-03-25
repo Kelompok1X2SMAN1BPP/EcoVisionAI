@@ -133,64 +133,37 @@ body {
 }
 
 /* ===============================
-   4. MONITOR & SCANNER
-=================================*/
-/* ===============================
-   4. MONITOR & SCANNER (VERSI FIX)
+   4. MONITOR & SCANNER (FIX VERTIKAL)
 =================================*/
 #webcam-wrapper {
     background: #000;
     width: 100%;
-    height: 350px;     /* Kunci tinggi di sini biar gak molor */
+    height: 350px;     /* Tinggi tetap terkunci */
     border-radius: 15px;
-    overflow: hidden;  /* Potong gambar yang keluar dari kotak */
+    overflow: hidden;
     position: relative;
     border: 2px solid #1F7A3E;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: center; /* Gambar vertikal bakal di tengah secara horizontal */
+    align-items: center;     /* Gambar horizontal bakal di tengah secara vertikal */
 }
 
-/* Pastikan Canvas Kamera juga ngikutin ukuran kotak */
-#webcam-container canvas {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover; /* Biar tampilan kamera penuh & gak gepeng */
-}
-
-/* Biar Gambar Upload nurut sama ukuran kotak */
+/* Biar Gambar Upload UTUH & GAK KEPOTONG */
 #image-preview {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* INI RAHASIANYA biar gambar gak panjang ke bawah */
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;       /* Lebar menyesuaikan proporsi asli */
+    height: auto;      /* Tinggi menyesuaikan proporsi asli */
+    object-fit: contain; /* INI KUNCINYA: Gambar utuh, sisa kotak jadi hitam */
     display: none; 
 }
 
-/* CONTROL PANEL */
-.control-panel {
-    margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
+/* Pastikan Kamera juga tetap rapi */
+#webcam-container canvas {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; 
 }
-
-.btn-main, .btn-sub, .btn-clear {
-    padding: 12px 25px;
-    border-radius: 10px;
-    font-weight: 700;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: 0.3s;
-    border: none;
-    flex: 1;
-}
-
-.btn-main { background: #6BCB2E; color: #051510; }
-.btn-sub { background: transparent; color: #6BCB2E; border: 1px solid #6BCB2E; }
-.btn-clear { background: transparent; color: #ff4d4d; border: 1px solid #ff4d4d; }
-
-.btn-main:hover { background: #1F7A3E; color: white; }
-.btn-sub:hover { background: rgba(107, 203, 46, 0.1); }
 
 /* ===============================
    5. ANALYSIS & RESULTS
