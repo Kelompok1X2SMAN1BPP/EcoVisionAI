@@ -9,7 +9,7 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #051510; /* Lebih gelap biar kesan pro */
+    background-color: #051510;
     color: #ffffff;
     line-height: 1.6;
     overflow-x: hidden;
@@ -79,7 +79,7 @@ body {
 /* GRID SYSTEM */
 .dashboard-grid {
     display: grid;
-    grid-template-columns: 1.3fr 1fr; /* Kiri lebih lebar untuk monitor */
+    grid-template-columns: 1.3fr 1fr;
     gap: 25px;
 }
 
@@ -133,36 +133,49 @@ body {
 }
 
 /* ===============================
-   4. MONITOR & SCANNER (FIX VERTIKAL)
+   4. MONITOR & SCANNER
 =================================*/
+
+/* STATE AWAL: Kotak hitam tersembunyi */
 #webcam-wrapper {
     background: #000;
     width: 100%;
-    height: 350px;     /* Tinggi tetap terkunci */
+    height: 0;              /* Tinggi 0 di awal — tidak terlihat */
     border-radius: 15px;
     overflow: hidden;
     position: relative;
-    border: 2px solid #1F7A3E;
+    border: 2px solid transparent; /* Border transparan dulu */
     display: flex;
-    justify-content: center; /* Gambar vertikal bakal di tengah secara horizontal */
-    align-items: center;     /* Gambar horizontal bakal di tengah secara vertikal */
+    justify-content: center;
+    align-items: center;
+    transition: height 0.4s ease, border-color 0.4s ease; /* Animasi halus saat muncul */
 }
 
-/* Biar Gambar Upload UTUH & GAK KEPOTONG */
+/* STATE AKTIF: Muncul setelah kamera/upload aktif */
+/* Tambahkan class "active" via JavaScript ke #webcam-wrapper */
+#webcam-wrapper.active {
+    height: 350px;
+    border-color: #1F7A3E;
+}
+
+/* ---- FOTO UPLOAD (vertikal maupun horizontal) ---- */
 #image-preview {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;       /* Lebar menyesuaikan proporsi asli */
-    height: auto;      /* Tinggi menyesuaikan proporsi asli */
-    object-fit: contain; /* INI KUNCINYA: Gambar utuh, sisa kotak jadi hitam */
-    display: none; 
+    max-height: 100%;       /* Tinggi maksimal = tinggi wrapper (350px) */
+    width: auto;            /* Lebar mengikuti proporsi asli foto */
+    height: auto;
+    max-width: 100%;        /* Jaga agar tidak overflow jika foto landscape */
+    object-fit: contain;
+    display: none;
 }
 
-/* Pastikan Kamera juga tetap rapi */
+/* Foto vertikal: lebar mengikuti foto, bukan memenuhi wrapper */
+/* Tidak perlu rule tambahan — width: auto + max-height: 100% sudah cukup */
+
+/* ---- WEBCAM / CANVAS ---- */
 #webcam-container canvas {
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain; 
+    object-fit: contain;
 }
 
 /* ===============================
@@ -175,7 +188,6 @@ body {
 
 hr { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
 
-/* Container Dasar Label */
 #label-container div {
     margin: 12px 0;
     padding: 15px;
@@ -186,10 +198,9 @@ hr { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px
     display: flex;
     justify-content: space-between;
     transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.05); /* Latar belakang transparan tipis */
+    background: rgba(255, 255, 255, 0.05);
 }
 
-/* Warna Spesifik Tiap Baris (Urutan sesuai di Teachable Machine) */
 /* Baris 1: Organik */
 #label-container div:nth-child(1) {
     border-left: 8px solid #2ECC71;
@@ -244,7 +255,3 @@ hr { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px
     .dashboard-grid { grid-template-columns: 1fr; }
     .dashboard-header h1 { font-size: 1.8rem; }
 }
-
-
-
-
