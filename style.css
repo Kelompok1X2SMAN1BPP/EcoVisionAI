@@ -147,7 +147,62 @@ body {
     justify-content: center; /* Gambar vertikal bakal di tengah secara horizontal */
     align-items: center;     /* Gambar horizontal bakal di tengah secara vertikal */
 }
+/* ===============================
+   DITAMBAHKAN: CONTROL PANEL & BUTTONS
+=================================*/
+.control-panel {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
 
+.btn-main, .btn-sub, .btn-clear {
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    flex: 1;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Tombol Start Scanner (Hijau) */
+.btn-main { 
+    background: #6BCB2E; 
+    color: #051510; 
+}
+
+.btn-main:hover { 
+    background: #1F7A3E; 
+    color: white;
+    box-shadow: 0 0 15px rgba(107, 203, 46, 0.4);
+}
+
+/* Tombol Upload Image (Garis Hijau) */
+.btn-sub { 
+    background: transparent; 
+    color: #6BCB2E; 
+    border: 2px solid #6BCB2E; 
+}
+
+.btn-sub:hover { 
+    background: rgba(107, 203, 46, 0.1); 
+}
+
+/* Tombol Reset/Stop (Merah) */
+.btn-clear { 
+    background: #e74c3c; 
+    color: white; 
+}
+
+.btn-clear:hover { 
+    background: #c0392b; 
+    box-shadow: 0 0 15px rgba(231, 76, 60, 0.4);
+}
 /* Biar Gambar Upload UTUH & GAK KEPOTONG */
 #image-preview {
     max-width: 100%;
