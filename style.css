@@ -34,64 +34,59 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
-    gap: 15px; /* Kasih jarak antar elemen */
 }
 
-/* Bungkus Logo & Teks */
+/* INI YANG BIKIN SEBELAHAN & SEJAJAR */
 .logo-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 12px; /* Jarak antara gambar logo dan tulisan */
+    display: flex;      /* Bikin sejajar horizontal */
+    align-items: center; /* Bikin rata tengah vertikal */
+    gap: 10px;          /* Jarak antara logo dan tulisan */
 }
 
 #nav-logo-img { 
-    height: 45px; /* Logo digedein dikit */
+    height: 50px;       /* Ukuran logo lebih gede */
     width: auto;
-    display: block;
 }
 
 .logo-text {
-    font-size: 1.5rem; /* Ukuran tulisan EcoVision */
+    font-size: 1.6rem;
     font-weight: 800;
-    letter-spacing: -0.5px;
-    line-height: 1;
-    /* EFEK GRADASI KAYAK GAMBAR 3 */
+    margin: 0;          /* Hapus margin bawaan biar gak turun */
+    line-height: 1;     /* Biar teks gak punya ruang kosong di atas/bawah */
+    
+    /* Efek Gradasi Gambar 3 */
     background: linear-gradient(to right, #ffffff, #6BCB2E);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-/* Info Sekolah di Kanan */
-.nav-info {
-    text-align: right;
-    min-width: fit-content;
-}
-
+/* Info SMAN 1 */
 .nav-info p {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     color: #6BCB2E;
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
     margin: 0;
 }
 
-/* FIX UNTUK TAMPILAN HP */
+/* FIX KHUSUS HAPE */
 @media (max-width: 600px) {
     .nav-container {
-        padding: 0 15px;
+        flex-direction: row; /* Tetap satu baris di HP */
+        justify-content: space-between;
     }
     
     .logo-text {
-        font-size: 1.2rem; /* Kecilin dikit di HP biar gak makan tempat */
+        font-size: 1.1rem;
     }
 
     #nav-logo-img {
-        height: 35px; /* Logo sesuaikan di HP */
+        height: 35px;
     }
 
     .nav-info p {
-        font-size: 0.6rem; /* Teks SMAN 1 dikecilkan biar gak berantakan */
+        font-size: 0.6rem;
+        max-width: 100px; /* Biar gak nabrak logo di layar sempit */
+        text-align: right;
     }
 }
 /* ===============================
