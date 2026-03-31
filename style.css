@@ -172,62 +172,62 @@ body {
 }
 
 /* ===============================
-    4. MONITOR & SCANNER (FIX TAMPILAN)
+    4. MONITOR & SCANNER (FINAL CENTER FIX)
 =================================*/
 #webcam-wrapper {
     background: #000;
     width: 100%;
     
-    /* DEFAULT: Benar-benar disembunyikan agar tidak makan tempat saat kosong */
+    /* Disembunyikan dulu sampai ada input */
     display: none; 
-    height: 350px; /* Tinggi standar agar kotak proporsional */
-    border: 2px solid #1F7A3E; 
+    height: 350px;
+    border: 2px solid #1F7A3E;
     border-radius: 15px;
     overflow: hidden;
     position: relative;
     
-    /* Memastikan isi (kamera/foto) tepat di tengah */
+    /* INI KUNCINYA: Memaksa semua isi (kamera/foto) ke tengah */
     justify-content: center; 
-    align-items: center;  
+    align-items: center;     
     margin-bottom: 20px;
-    
-    /* Animasi transisi */
-    transition: all 0.3s ease-in-out;
 }
 
-/* CLASS AKTIF: Dipanggil JS saat Start Scanner atau Upload */
+/* Munculkan kotak saat aktif */
 #webcam-wrapper.active-monitor {
-    display: flex !important; /* Memaksa kotak muncul */
+    display: flex !important; 
 }
 
-/* Container khusus untuk menampung Canvas dari Teachable Machine */
+/* Pastikan kontainer kamera mengikuti aturan rata tengah */
 #webcam-container {
     width: 100%;
     height: 100%;
-    display: flex;
-    justify-content: center;
+    display: flex;         /* Bikin flex juga di dalam */
+    justify-content: center; 
     align-items: center;
 }
 
-/* Memastikan output kamera tidak terpotong (Utuh) */
+/* MEMAKSA CANVAS KAMERA KE TENGAH */
 #webcam-container canvas {
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain; /* */
+    width: auto !important;  /* Mencegah stretching */
+    height: auto !important; /* Mencegah stretching */
+    object-fit: contain;
+    display: block;          /* Hilangkan spasi inline */
+    margin: auto;            /* Tambahan pengaman posisi tengah */
 }
 
-/* Preview Gambar Upload agar Utuh & Sejajar */
+/* Preview Gambar Upload agar tetap Tengah & Utuh */
 #image-preview {
     max-width: 100%;
     max-height: 100%;
-    width: auto;
-    height: auto;
-    object-fit: contain; /* Menjaga proporsi gambar asli */
-    display: none; 
+    object-fit: contain; 
+    display: none;
+    margin: auto; 
 }
 
 /* ===============================
-    DITAMBAHKAN: CONTROL PANEL & BUTTONS
+    CONTROL PANEL & BUTTONS
 =================================*/
 .control-panel {
     margin-top: 20px;
@@ -240,38 +240,9 @@ body {
     padding: 12px 25px;
     border-radius: 12px;
     font-weight: 700;
-    font-size: 0.85rem;
     cursor: pointer;
-    transition: all 0.3s ease;
-    border: none;
     flex: 1;
     text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-/* Tombol Start Scanner (Hijau) */
-.btn-main { 
-    background: #6BCB2E; 
-    color: #051510; 
-}
-
-.btn-main:hover { 
-    background: #1F7A3E; 
-    color: white;
-    box-shadow: 0 0 15px rgba(107, 203, 46, 0.4);
-}
-
-/* Tombol Upload Image (Garis Hijau) */
-.btn-sub { 
-    background: transparent; 
-    color: #6BCB2E; 
-    border: 2px solid #6BCB2E; 
-}
-
-/* Tombol Reset (Merah) */
-.btn-clear { 
-    background: #e74c3c; 
-    color: white; 
 }
 /* ===============================
    5. ANALYSIS & RESULTS
