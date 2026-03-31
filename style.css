@@ -172,23 +172,24 @@ body {
 }
 
 /* ===============================
-    4. MONITOR & SCANNER (FINAL CENTER FIX)
+    4. MONITOR & SCANNER (ULTRA CENTER FIX)
 =================================*/
 #webcam-wrapper {
     background: #000;
-    width: 100%;
+    width: 100% !important;
     
-    /* Disembunyikan dulu sampai ada input */
+    /* Sembunyi sampai aktif */
     display: none; 
-    height: 350px;
+    height: 350px !important;
     border: 2px solid #1F7A3E;
     border-radius: 15px;
     overflow: hidden;
     position: relative;
     
-    /* INI KUNCINYA: Memaksa semua isi (kamera/foto) ke tengah */
-    justify-content: center; 
-    align-items: center;     
+    /* JURUS 1: Flexbox di Wrapper */
+    display: none; 
+    justify-content: center !important;
+    align-items: center !important;
     margin-bottom: 20px;
 }
 
@@ -197,33 +198,44 @@ body {
     display: flex !important; 
 }
 
-/* Pastikan kontainer kamera mengikuti aturan rata tengah */
 #webcam-container {
-    width: 100%;
-    height: 100%;
-    display: flex;         /* Bikin flex juga di dalam */
-    justify-content: center; 
-    align-items: center;
+    width: 100% !important;
+    height: 100% !important;
+    
+    /* JURUS 2: Flexbox di Container (Double Protection) */
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    position: relative;
 }
 
-/* MEMAKSA CANVAS KAMERA KE TENGAH */
+/* JURUS 3: Paksa Canvas (Kamera) ke Tengah */
 #webcam-container canvas {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto !important;  /* Mencegah stretching */
-    height: auto !important; /* Mencegah stretching */
-    object-fit: contain;
-    display: block;          /* Hilangkan spasi inline */
-    margin: auto;            /* Tambahan pengaman posisi tengah */
+    /* Paksa ukuran agar tidak melebihi kotak tapi tetap proporsional */
+    max-width: 100% !important;
+    max-height: 100% !important;
+    width: auto !important;
+    height: auto !important;
+    
+    /* Posisi absolut tengah sebagai cadangan kalau flexbox gagal */
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    
+    object-fit: contain !important;
+    border-radius: 10px;
 }
 
-/* Preview Gambar Upload agar tetap Tengah & Utuh */
+/* Preview Gambar Upload */
 #image-preview {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain; 
+    max-width: 100% !important;
+    max-height: 100% !important;
+    width: auto !important;
+    height: auto !important;
+    object-fit: contain !important;
     display: none;
-    margin: auto; 
+    margin: auto !important;
 }
 
 /* ===============================
