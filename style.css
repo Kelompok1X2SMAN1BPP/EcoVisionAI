@@ -172,23 +172,25 @@ body {
 }
 
 /* ===============================
-    4. MONITOR & SCANNER (FIX POSISI & WARNA)
+    4. MONITOR & SCANNER (FINAL TOTAL FIX)
 =================================*/
 #webcam-wrapper {
     background: #000;
     width: 100% !important;
-    display: none; 
+    display: none; /* Sembunyi sampai tombol diklik */
     height: 350px !important;
     border: 2px solid #1F7A3E;
     border-radius: 15px;
     overflow: hidden;
     position: relative;
+    
+    /* Layouting tengah */
     justify-content: center !important;
     align-items: center !important;
     margin-bottom: 20px;
 }
 
-/* Munculkan kotak saat aktif */
+/* Munculkan kotak saat ada aktivitas */
 #webcam-wrapper.active-monitor {
     display: flex !important; 
 }
@@ -202,28 +204,105 @@ body {
     position: relative;
 }
 
-/* Paksa Kamera/Canvas ke Tengah */
-#webcam-container canvas {
+/* JURUS PAMUNGKAS: Kamera (Canvas) & Foto Upload WAJIB di TENGAH */
+#webcam-container canvas, 
+#image-preview {
     max-width: 100% !important;
     max-height: 100% !important;
     width: auto !important;
     height: auto !important;
+    
+    /* Koordinat Absolut agar tidak nempel di pinggir */
     position: absolute !important;
     top: 50% !important;
     left: 50% !important;
     transform: translate(-50%, -50%) !important;
+    
     object-fit: contain !important;
 }
 
-/* Preview Gambar Upload */
-#image-preview {
-    max-width: 100% !important;
-    max-height: 100% !important;
-    object-fit: contain !important;
-    display: none;
-    margin: auto !important;
+/* ===============================
+    5. TOMBOL (BALIK KE WARNA ASLI)
+=================================*/
+.control-panel {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
+.btn-main, .btn-sub, .btn-clear {
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    flex: 1;
+    text-transform: uppercase;
+    border: none;
+    transition: 0.3s ease;
+}
+
+/* Start Scanner / Stop (Warna Hijau Terang) */
+.btn-main { 
+    background-color: #6BCB2E !important; 
+    color: #051510 !important; 
+}
+
+/* Upload Image (Outline Hijau) */
+.btn-sub { 
+    background-color: transparent !important; 
+    color: #6BCB2E !important; 
+    border: 2px solid #6BCB2E !important; 
+}
+
+/* Reset (Warna Merah) */
+.btn-clear { 
+    background-color: #e74c3c !important; 
+    color: white !important; 
+}
+
+/* Efek Hover biar keren */
+.btn-main:hover { background-color: #5ab325 !important; }
+.btn-clear:hover { background-color: #c0392b !important; }
+/* ===============================
+    5. TOMBOL (WARNA ASLI & KONSISTEN)
+=================================*/
+.control-panel {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.btn-main, .btn-sub, .btn-clear {
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    flex: 1;
+    text-transform: uppercase;
+    border: none;
+    transition: 0.3s;
+}
+
+/* Start Scanner (Hijau Stabilo) */
+.btn-main { 
+    background-color: #6BCB2E !important; 
+    color: #051510 !important; 
+}
+
+/* Upload Image (Outline Hijau) */
+.btn-sub { 
+    background-color: transparent !important; 
+    color: #6BCB2E !important; 
+    border: 2px solid #6BCB2E !important; 
+}
+
+/* Reset (Merah) */
+.btn-clear { 
+    background-color: #e74c3c !important; 
+    color: white !important; 
+}
 /* ===============================
     5. CONTROL PANEL & BUTTON COLORS (KEMBALI NORMAL)
 =================================*/
