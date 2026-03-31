@@ -172,44 +172,63 @@ body {
 }
 
 /* ===============================
-    4. MONITOR & SCANNER (DYNAMIC HEIGHT)
+    4. MONITOR & SCANNER (FIX TAMPILAN)
 =================================*/
 #webcam-wrapper {
     background: #000;
     width: 100%;
     
-    /* DEFAULT: Tinggi 0 & Tanpa Border (Tersembunyi) */
-    height: 0; 
-    border: 0px solid #1F7A3E; 
-    margin-bottom: 0;
-    
+    /* DEFAULT: Benar-benar disembunyikan agar tidak makan tempat saat kosong */
+    display: none; 
+    height: 350px; /* Tinggi standar agar kotak proporsional */
+    border: 2px solid #1F7A3E; 
     border-radius: 15px;
     overflow: hidden;
     position: relative;
-    display: flex;
-    justify-content: center; /* Gambar di tengah horizontal */
-    align-items: center;     /* Gambar di tengah vertikal */
-    transition: all 0.5s ease-in-out; /* Animasi buka-tutup halus */
-}
-
-/* CLASS AKTIF: Akan dipanggil lewat JS saat Start/Upload */
-#webcam-wrapper.active-monitor {
-    height: 350px;           /* Tinggi kembali ke standar */
-    border: 2px solid #1F7A3E;
+    
+    /* Memastikan isi (kamera/foto) tepat di tengah */
+    justify-content: center; 
+    align-items: center;  
     margin-bottom: 20px;
+    
+    /* Animasi transisi */
+    transition: all 0.3s ease-in-out;
 }
 
-/* Preview Gambar & Kamera agar Utuh (Tidak Terpotong) */
-#image-preview, #webcam-container canvas {
+/* CLASS AKTIF: Dipanggil JS saat Start Scanner atau Upload */
+#webcam-wrapper.active-monitor {
+    display: flex !important; /* Memaksa kotak muncul */
+}
+
+/* Container khusus untuk menampung Canvas dari Teachable Machine */
+#webcam-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Memastikan output kamera tidak terpotong (Utuh) */
+#webcam-container canvas {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* */
+}
+
+/* Preview Gambar Upload agar Utuh & Sejajar */
+#image-preview {
     max-width: 100%;
     max-height: 100%;
     width: auto;
     height: auto;
-    object-fit: contain; /* */
+    object-fit: contain; /* Menjaga proporsi gambar asli */
     display: none; 
 }
 
-/* CSS Tombol (Pastikan ini ada di bawah wrapper) */
+/* ===============================
+    DITAMBAHKAN: CONTROL PANEL & BUTTONS
+=================================*/
 .control-panel {
     margin-top: 20px;
     display: flex;
@@ -217,17 +236,42 @@ body {
     gap: 15px;
 }
 
-.btn-main { background: #6BCB2E; color: #051510; } /* */
-.btn-sub { background: transparent; color: #6BCB2E; border: 2px solid #6BCB2E; }
-.btn-clear { background: #e74c3c; color: white; } /* */
-
 .btn-main, .btn-sub, .btn-clear {
     padding: 12px 25px;
     border-radius: 12px;
     font-weight: 700;
+    font-size: 0.85rem;
     cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
     flex: 1;
     text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Tombol Start Scanner (Hijau) */
+.btn-main { 
+    background: #6BCB2E; 
+    color: #051510; 
+}
+
+.btn-main:hover { 
+    background: #1F7A3E; 
+    color: white;
+    box-shadow: 0 0 15px rgba(107, 203, 46, 0.4);
+}
+
+/* Tombol Upload Image (Garis Hijau) */
+.btn-sub { 
+    background: transparent; 
+    color: #6BCB2E; 
+    border: 2px solid #6BCB2E; 
+}
+
+/* Tombol Reset (Merah) */
+.btn-clear { 
+    background: #e74c3c; 
+    color: white; 
 }
 /* ===============================
    5. ANALYSIS & RESULTS
